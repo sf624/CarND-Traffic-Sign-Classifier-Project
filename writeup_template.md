@@ -19,14 +19,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./speed_limit_60.png "Traffic Sign 1" = 200x
-[image5]: ./children_crossing.png "Traffic Sign 2"
-[image6]: ./roadworks.png = 200x "Traffic Sign 3"
-[image7]: ./turn_right_ahead.png "Traffic Sign 4"
-[image8]: ./no_entry.png "Traffic Sign 5"
+[image1]: ./distribution_of_train.png "Distribution"
+[image3]: ./grayscale.png "Grayscaling"
+[image2]: ./train_image.png "Random Noise"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -60,7 +55,7 @@ signs data set:
 
 The code for this step is contained in the 2nd code cell of the IPython notebook.  
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here is an exploratory visualization of the data set. It is a bar chart showing how the traning data is ditributed along the Class ID. From the figure, it seems it is not uniformly distributed.
 
 ![alt text][image1]
 
@@ -74,7 +69,7 @@ As a first step, I decided to convert the images to grayscale to make data compa
 
 Here is an example of a traffic sign image before and after grayscaling.
 
-![alt text][image2]
+![alt text][image2] ![alt text][image3]
 
 As a second step, I normalized the image data to eliminate the effect of light intensity.
 
