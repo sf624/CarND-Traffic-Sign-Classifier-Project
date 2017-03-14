@@ -152,7 +152,8 @@ Here are the results of the prediction:
 | No entry			| No entry      							|
 
 
-The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%.
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. Comparing with the former test accuracy of 93.1%, it seems to perform better on the new image. But as decribed in the following sentence, the softmax probability of 2nd image was 29% which is relatively lower than the other 4 images (above 90%), so there seems to had a chance to fell to accuracy of 80% (or even lower) on the new images if the training process leaded to worser result. (Because this optimization process is "stochastic", there was a chance to get lower score.) Also if I have to really calculate precise accuracy, I would have to process much more number of images, not only five.
+
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction and identify where in your code softmax probabilities were outputted. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
