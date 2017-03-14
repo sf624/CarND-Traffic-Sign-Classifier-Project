@@ -1,8 +1,4 @@
-#**Traffic Sign Recognition** 
-
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+#**Traffic Sign Recognition Writeup** 
 
 ---
 
@@ -22,6 +18,7 @@ The goals / steps of this project are the following:
 [image1]: ./distribution_of_train.png "Distribution"
 [image3]: ./grayscale.png "Grayscaling"
 [image2]: ./train_image.png "Random Noise"
+[image4]: ./probabilities.png "Probabilities"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -80,7 +77,7 @@ Traing, Validation and testing data were already splited in the original [datase
 
 ####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-The code for my final model is located in the sixth cell of the ipython notebook. 
+The code for my final model is located in the fifth cell of the ipython notebook. 
 
 My final model consisted of the following layers:
 It is almost similar to original LeNet-5 except a dropout after flatteing the 2nd convolution layer.
@@ -107,32 +104,22 @@ It is almost similar to original LeNet-5 except a dropout after flatteing the 2n
 
 ####4. Describe how, and identify where in your code, you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-The code for training the model is located in the eigth cell of the ipython notebook. 
+The code for training the model is located in the sixth cell of the ipython notebook. 
 
-To train the model, I used an ....
+To train the model, I used an AdamOptimizer to minimize cross entropy of softmax probabilites with one hot encoded class ids. Batchsize, epochs and learning rate were each set to 128, 10 and 0.001.
 
 ####5. Describe the approach taken for finding a solution. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
-The code for calculating the accuracy of the model is located in the ninth cell of the Ipython notebook.
+The code for calculating the accuracy of the model is located in the sixth cell of the Ipython notebook.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 0.993
+* validation set accuracy of 0.949
+* test set accuracy of 0.931
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to over fitting or under fitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+Although there were more sophisticated architectures proposed to tackle this problem, I simply started by using LeNet-5 for its computational efficiency and seeked its potentials to gain higher performance. According to the paper of P. Sermanet and Y. LeCun, it seemed that grayscale image is still capable of achieving 93% accuracy, so I just simply converted the colored images to grayscale. And also applied normalization to eliminate the effect of light initensity which has no meanings on traffic signs.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-Architecture similar to LeNet-5.
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+The original LeNet-5 have shown high accuracy in training set but comparatively low accuracy (below 90%) in validation set. So I thought that certain generalization technique will help its performance imporvement. As a solution, I added dropout layer between fully connected layer (400 -> 120), because those layers had large number of weight and bias parameters to tune, which might have tend to fall in over fitting problem if not for dropout.
 
 ###Test a Model on New Images
 
@@ -142,11 +129,11 @@ Here are five German traffic signs that I found on the web (extracted from Wikip
 
 | Image			        |     Meaning	        					| 
 |:---------------------:|:---------------------------------------------:| 
-|<img src="speed_limit_60.png" width="200px"> | Speed limit 60km/h |
-|<img src="children_crossing.png" width="200px"> | Children crossing |
-|<img src="roadworks.png" width="200px"> | Roadworks |
-|<img src="turn_right_ahead.png" width="200px"> | Turn right ahead |
-|<img src="no_entry.png" width="200px"> | No entry |
+|<img src="speed_limit_60.png" width="200px"> | 1. Speed limit 60km/h |
+|<img src="children_crossing.png" width="200px"> | 2. Children crossing |
+|<img src="roadworks.png" width="200px"> | 3. Roadworks |
+|<img src="turn_right_ahead.png" width="200px"> | 4. Turn right ahead |
+|<img src="no_entry.png" width="200px"> | 5. No entry |
 
 2nd and 3rd images might be difficult to distinguish, because both have similar property of red triangle.
 
@@ -171,15 +158,14 @@ The model was able to correctly guess 5 of the 5 traffic signs, which gives an a
 
 The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+Except for the 2nd image, the model is highly sure for each signs ( probability of 0.94 ~ 0.99 ). But for the 2nd image, it is not much certain. This could be because the small children image in the triangular sign was highly corrupted when resizing the image into 32x32 pixels.
 
-| Probability         	|     Prediction	        					| 
+| Probability (round down)         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 0.94         			| Speed limit 60km/h   									| 
+| 0.29     				| Children crossing 										|
+| 0.99					| Road works											|
+| 0.99	      			| Turn right ahead					 				|
+| 0.99				    | No entry      							|
 
-
-For the second image ... 
+![alt text][image4]
